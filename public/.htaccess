@@ -17,15 +17,15 @@
 	DocumentRoot /var/www/app/public
 	DirectoryIndex index.html /index.php
 
-    <Directory /var/www/app/public>
+   <Directory /var/www/app/public>
     	Require all granted
         AllowOverride None
 	
 	FallbackResource /index.php
+
 <IfModule mod_negotiation.c>
     Options -MultiViews
 </IfModule>
-
 <IfModule mod_rewrite.c>
     	RewriteEngine On
 
@@ -72,6 +72,35 @@
         	RedirectMatch 307 ^/$ /index.php/
         # RedirectTemp cannot be used instead
     </IfModule>
+</IfModule>
+</Directory>
+</VirtualHost>
+#RewriteEngine On 
+  # If an existing asset or directory is requested go to it as it is 
+#  RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -f [OR] 
+#  RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -d 
+#  RewriteRule ^ - [L] 
+ 
+  # If the requested resource doesn't exist, use index.html 
+#  RewriteRule ^ /index.html
+
+<VirtualHost *:8080>
+	DocumentRoot /var/www/app/dist/angular-ecommerce
+	<Directory /var/www/app/dist/angular-ecommerce>
+		Require all granted
+		AllowOverride None
+
+		FallbackResource /index.html
+<IfModule mod_negotiation.c>
+    Options -MultiViews
+</IfModule>
+  <IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
 </IfModule>
 </Directory>
 </VirtualHost>
