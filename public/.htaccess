@@ -12,7 +12,7 @@
 
 # Disabling MultiViews prevents unwanted negotiation, e.g. "/index" should not resolve
 # to the front controller "/index.php" but be rewritten to "/index.php/index".
-<VirtualHost *:80>
+<VirtualHost *:5000>
 
 	DocumentRoot /var/www/app/public
 	DirectoryIndex index.html /index.php
@@ -64,15 +64,15 @@
     	RewriteRule ^ %{ENV:BASE}/index.php [L]
 </IfModule>
 
-<IfModule !mod_rewrite.c>
-    <IfModule mod_alias.c>
+#<IfModule !mod_rewrite.c>
+ #   <IfModule mod_alias.c>
         # When mod_rewrite is not available, we instruct a temporary redirect of
         # the start page to the front controller explicitly so that the website
         # and the generated links can still be used.
-        	RedirectMatch 307 ^/$ /index.php/
+  #      	RedirectMatch 307 ^/$ /index.php/
         # RedirectTemp cannot be used instead
-    </IfModule>
-</IfModule>
+   # </IfModule>
+#</IfModule>
 </Directory>
 </VirtualHost>
 #RewriteEngine On 
@@ -84,23 +84,7 @@
   # If the requested resource doesn't exist, use index.html 
 #  RewriteRule ^ /index.html
 
-<VirtualHost *:8080>
-	DocumentRoot /var/www/app/dist/angular-ecommerce
-	<Directory /var/www/app/dist/angular-ecommerce>
-		Require all granted
-		AllowOverride None
-
-		FallbackResource /index.html
-<IfModule mod_negotiation.c>
-    Options -MultiViews
-</IfModule>
-  <IfModule mod_rewrite.c>
-  RewriteEngine On
-  RewriteBase /
-  RewriteRule ^index\.html$ - [L]
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /index.html [L]
-</IfModule>
-</Directory>
+<VirtualHost *:80>
+	DocumentRoot /var/www/app/anguFront/src
+	ProxyPass / http://localhost:4200
 </VirtualHost>
