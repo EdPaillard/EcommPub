@@ -17,12 +17,10 @@
 	DocumentRoot /var/www/app/public
 	DirectoryIndex index.html /index.php
 
-   <Directory /var/www/app/public>
+   <Directory /var/www/app/>
     	Require all granted
         AllowOverride None
 	
-	FallbackResource /index.php
-
 <IfModule mod_negotiation.c>
     Options -MultiViews
 </IfModule>
