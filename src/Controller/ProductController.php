@@ -2,128 +2,103 @@
 
 namespace App\Controller;
 
+use App\Controller\ApiController;
+use App\Repository\ProductRepository;
+use App\Entity\Order;
+use App\Entity\Product;
+use App\Security\AppCustomAuthenticator;
+use App\Service\UserService;
+use Doctrine\DBAL\Driver\Exception;
+use FOS\RestBundle\Controller\Annotations as Rest;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\Product;
 
-class ProductController extends AbstractController
+class ProductController extends ApiController
 {
     /**
-     * @Route("/api/products", name="app_product")
+     * @Route("/api/products", name="app_product_all", methods={"GET"})
      */
-    public function index(): Response
+    public function showAll(ProductRepository $productRepository): JsonResponse
     {
-        $products = $this->getDoctrine()
-            ->getRepository(Product::class)
-            ->findAll();
- 
-        $data = [];
- 
-        foreach ($products as $product) {
-           $data[] = [
-               'id' => $product->getId(),
-               'name' => $product->getName(),
-               'description' => $product->getDescription(),
-               'photo' => $product->getPhoto(),
-               'price' => $product->getPrice(),  
-           ];
-        }
- 
- 
-        return $this->json($data);
-    }
-    /**
-     * @Route("/api/product", name="project_new", methods={"POST"})
-     */
-    public function new(Request $request): Response
-    
-    {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $product = $productRepository->findAll();
 
+        return $this->json($product);
+    }
+
+    /**
+     * @Route("/api/products/{id}", name="app_product_one", methods={"GET"})
+     */
+    public function showOne(ProductRepository $productRepository, int $id): JsonResponse
+    {
+        $product = $productRepository->find(['id' => $id]);
+
+        if (!$product) {
+            return $this->respondNotFound();
+        }
+        return $this->json($product);
+    }
+
+    /**
+     * @Route("/api/products", name="app_product_create", methods={"POST"})
+     */
+    public function create(Request $request): JsonResponse
+    {
+        $request = $this->transformJsonBody($request);
         $entityManager = $this->getDoctrine()->getManager();
- 
+
         $product = new Product();
-        $product->setName($request->request->get('name'));
-        $product->setDescription($request->request->get('description'));
-        $product->setPhoto($request->request->get('photo'));
-        $product->setPrice($request->request->get('price'));
+        $product
+            ->setName($request->get('name', 0), '')
+            ->setDescription($request->get('description', 0), '')
+            ->setPhoto($request->get('photo', 0), '')
+            ->setPrice($request->get('price', 0), 0);
 
         $entityManager->persist($product);
         $entityManager->flush();
- 
-        return $this->json('Produit ajouté: ' . $product->getId() .':' . $product->getName());
+
+
+        return $this->json($product);
     }
 
     /**
-     * @Route("/api/product/{productId}", name="product_show", methods={"GET"})
+     * @Route("/api/products/{id}", name="app_product_update", methods={"PUT"})
      */
-    public function show(int $productId): Response
+    public function update(Request $request, ProductRepository $productRepository, int $id): JsonResponse
     {
-        $product = $this->getDoctrine()
-            ->getRepository(Product::class)
-            ->find($productId);
- 
-        if (!$product) {
- 
-            return $this->json('Error'.' No product found for id' . $productId, 404);
-        }
- 
-        $data =  [
-            'id' => $product->getId(),
-            'name' => $product->getName(),
-            'description' => $product->getDescription(),
-            'photo' => $product->getPhoto(),
-            'price' => $product->getPrice(),
-        ];
-         
-        return $this->json($data);
-    }
-    /**
-     * @Route("/api/product/{id}", name="product_edit", methods={"PUT"})
-     */
-    public function edit(Request $request, int $id): Response
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $product = $entityManager->getRepository(Product::class)->find($id);
- 
-        if (!$product) {
-            return $this->json('Error :'.' No product found for id' . $id, 404);
-        }
- 
-        $product->setName($request->request->get('name'));
-        $product->setDescription($request->request->get('description'));
-        $product->setPhoto($request->request->get('photo'));
-        $product->setPrice($request->request->get('price'));
+        $request = $this->transformJsonBody($request);
 
-        $entityManager->flush();
- 
-        $data =  [
-            'id' => $product->getId(),
-            'name' => $product->getName(),
-            'description' => $product->getDescription(),
-            'photo' => $product->getPhoto(),
-            'price' => $product->getPrice(),
-        ];
-         
-        return $this->json($data);
-    }
-    /**
-     * @Route("/api/product/{id}", name="product_delete", methods={"DELETE"})
-     */
-    public function delete(int $id): Response
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $product = $entityManager->getRepository(Product::class)->find($id);
- 
+        $product = $productRepository->find(['id' => $id]);
+
         if (!$product) {
-            return $this->json('No product found for id' . $id, 404);
+            return $this->respondNotFound();
         }
- 
-        $entityManager->remove($product);
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        if ($request->get('name')) {
+            $product
+                ->setName($request->get('name'));
+        }
+        if ($request->get('description')) {
+            $product
+                ->setName($request->get('description'));
+        }
+        if ($request->get('photo')) {
+            $product
+                ->setName($request->get('photo'));
+        }
+        if ($request->get('price')) {
+            $product
+                ->setName($request->get('price'));
+        }
+
+        $entityManager->persist($product);
         $entityManager->flush();
- 
-        return $this->json('Deleted a product successfully with id ' . $id);
+
+
+        return $this->json($product);
     }
 }

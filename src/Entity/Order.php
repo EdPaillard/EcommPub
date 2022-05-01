@@ -1,10 +1,13 @@
 <?php
+
 namespace App\Entity;
 
 use App\Repository\OrderRepository;
+use Symfony\Component\Serializer\Annotation\Ignore;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=OrderRepository::class)
@@ -20,36 +23,31 @@ class Order
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity=OrderItem::class, mappedBy="orderRef",cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="ordr")
+     * 
      */
-    private $items;
-
-   /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $status = self::STATUS_CART;
+    private $products;
 
     /**
-     * An order that is in progress, not placed yet.
-     *
-     * @var string
+     * @ORM\Column(type="float", nullable=true)
      */
-    const STATUS_CART = 'cart';
-
-    
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
+    private $totalPrice;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    private $updatedAt;
+    private $creationDate;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="ordr")
+     * @ORM\JoinColumn(nullable=false)
+     * @Ignore()
+     */
+    private $user;
 
     public function __construct()
     {
-        $this->items = new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -58,107 +56,68 @@ class Order
     }
 
     /**
-     * @return Collection|OrderItem[]
+     * @return Collection<int, Product>
      */
-    public function getItems(): Collection
+    public function getProducts(): Collection
     {
-        return $this->items;
+        return $this->products;
     }
 
-    public function addItem(OrderItem $item): self
-{
-    foreach ($this->getItems() as $existingItem) {
-        // The item already exists, update the quantity
-        if ($existingItem->equals($item)) {
-            $existingItem->setQuantity(
-                $existingItem->getQuantity() + $item->getQuantity()
-            );
-            return $this;
+    public function addProducts(Product $products): self
+    {
+        if (!$this->products->contains($products)) {
+            $this->products[] = $products;
+            $products->setOrdr($this);
         }
+
+        return $this;
     }
 
-    $this->items[] = $item;
-    $item->setOrderRef($this);
-
-    return $this;
-}
-
-
-    public function removeItem(OrderItem $item): self
+    public function removeProducts(Product $products): self
     {
-        if ($this->items->removeElement($item)) {
+        if ($this->products->removeElement($products)) {
             // set the owning side to null (unless already changed)
-            if ($item->getOrderRef() === $this) {
-                $item->setOrderRef(null);
+            if ($products->getOrdr() === $this) {
+                $products->setOrdr(null);
             }
         }
 
         return $this;
     }
-/**
- * Removes all items from the order.
- *
- * @return $this
- */
-public function removeItems(): self
-{
-    foreach ($this->getItems() as $item) {
-        $this->removeItem($item);
+
+    public function getTotalPrice(): ?float
+    {
+        return $this->totalPrice;
     }
 
-    return $this;
-}
-
-    public function getStatus(): ?string
+    public function setTotalPrice(float $totalPrice): self
     {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): self
-    {
-        $this->status = $status;
+        $this->totalPrice = $totalPrice;
 
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreationDate(): ?\DateTimeInterface
     {
-        return $this->createdAt;
+        return $this->creationDate;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreationDate(?\DateTimeInterface $creationDate): self
     {
-        $this->createdAt = $createdAt;
+        $this->creationDate = $creationDate;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUser(): ?User
     {
-        return $this->updatedAt;
+        return $this->user;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    public function setUser(?User $user): self
     {
-        $this->updatedAt = $updatedAt;
+        $this->user = $user;
 
         return $this;
     }
-    /**
- * Calculates the order total.
- *
- * @return float
- */
-public function getTotal(): float
-{
-    $total = 0;
-
-    foreach ($this->getItems() as $item) {
-        $total += $item->getTotal();
-    }
-
-    return $total;
-}
-
-
 }

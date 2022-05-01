@@ -5,11 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-<<<<<<< HEAD
-        'reference' => '17dea51de14c8d4332a7bd8b46ddc4aff191c566',
-=======
-        'reference' => 'a23fa482792b5a62c6a5c0b1f228660880c71010',
->>>>>>> 834fed548df04eb07c5e14f747dec54cf118b8bf
+        'reference' => 'ba3a96725ef784a30e6780429a2d4ca9421f5fec',
         'name' => '__root__',
         'dev' => true,
     ),
@@ -20,11 +16,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-<<<<<<< HEAD
-            'reference' => '17dea51de14c8d4332a7bd8b46ddc4aff191c566',
-=======
-            'reference' => 'a23fa482792b5a62c6a5c0b1f228660880c71010',
->>>>>>> 834fed548df04eb07c5e14f747dec54cf118b8bf
+            'reference' => 'ba3a96725ef784a30e6780429a2d4ca9421f5fec',
             'dev_requirement' => false,
         ),
         'doctrine/annotations' => array(
@@ -171,6 +163,15 @@
             'reference' => '20c39c2de286a9d3262cc8ed282a4ae60e265894',
             'dev_requirement' => false,
         ),
+        'firebase/php-jwt' => array(
+            'pretty_version' => 'v6.1.2',
+            'version' => '6.1.2.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../firebase/php-jwt',
+            'aliases' => array(),
+            'reference' => 'c297139da7c6873dbd67cbd1093f09ec0bbd0c50',
+            'dev_requirement' => false,
+        ),
         'friendsofphp/proxy-manager-lts' => array(
             'pretty_version' => 'v1.0.7',
             'version' => '1.0.7.0',
@@ -223,6 +224,51 @@
             'install_path' => __DIR__ . '/../laminas/laminas-code',
             'aliases' => array(),
             'reference' => '6fd96d4d913571a2cd056a27b123fa28cb90ac4e',
+            'dev_requirement' => false,
+        ),
+        'lcobucci/clock' => array(
+            'pretty_version' => '2.0.0',
+            'version' => '2.0.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../lcobucci/clock',
+            'aliases' => array(),
+            'reference' => '353d83fe2e6ae95745b16b3d911813df6a05bfb3',
+            'dev_requirement' => false,
+        ),
+        'lcobucci/jwt' => array(
+            'pretty_version' => '4.1.5',
+            'version' => '4.1.5.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../lcobucci/jwt',
+            'aliases' => array(),
+            'reference' => 'fe2d89f2eaa7087af4aa166c6f480ef04e000582',
+            'dev_requirement' => false,
+        ),
+        'lexik/jwt-authentication-bundle' => array(
+            'pretty_version' => 'v2.15.1',
+            'version' => '2.15.1.0',
+            'type' => 'symfony-bundle',
+            'install_path' => __DIR__ . '/../lexik/jwt-authentication-bundle',
+            'aliases' => array(),
+            'reference' => 'b7a640b135fc572d69375d97e4a87524a5e886d0',
+            'dev_requirement' => false,
+        ),
+        'namshi/jose' => array(
+            'pretty_version' => '7.2.3',
+            'version' => '7.2.3.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../namshi/jose',
+            'aliases' => array(),
+            'reference' => '89a24d7eb3040e285dd5925fcad992378b82bcff',
+            'dev_requirement' => false,
+        ),
+        'nelmio/cors-bundle' => array(
+            'pretty_version' => '2.2.0',
+            'version' => '2.2.0.0',
+            'type' => 'symfony-bundle',
+            'install_path' => __DIR__ . '/../nelmio/cors-bundle',
+            'aliases' => array(),
+            'reference' => '0ee5ee30b0ee08ea122d431ae6e0ddeb87f035c0',
             'dev_requirement' => false,
         ),
         'nikic/php-parser' => array(
@@ -507,6 +553,15 @@
             'reference' => '143024ab0e426285d3d9b7f6a3ce51e12a9d8ec5',
             'dev_requirement' => false,
         ),
+        'symfony/notifier' => array(
+            'pretty_version' => 'v5.4.8',
+            'version' => '5.4.8.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/notifier',
+            'aliases' => array(),
+            'reference' => 'c5df5af88278e8c15020dd1f95f30eebf280f895',
+            'dev_requirement' => false,
+        ),
         'symfony/options-resolver' => array(
             'pretty_version' => 'v5.4.3',
             'version' => '5.4.3.0',
@@ -571,6 +626,15 @@
             'install_path' => __DIR__ . '/../symfony/polyfill-mbstring',
             'aliases' => array(),
             'reference' => '0abb51d2f102e00a4eefcf46ba7fec406d245825',
+            'dev_requirement' => false,
+        ),
+        'symfony/polyfill-php56' => array(
+            'pretty_version' => 'v1.20.0',
+            'version' => '1.20.0.0',
+            'type' => 'metapackage',
+            'install_path' => NULL,
+            'aliases' => array(),
+            'reference' => '54b8cd7e6c1643d78d011f3be89f3ef1f9f4c675',
             'dev_requirement' => false,
         ),
         'symfony/polyfill-php72' => array(
@@ -694,6 +758,15 @@
             'install_path' => __DIR__ . '/../symfony/security-http',
             'aliases' => array(),
             'reference' => '53d572f06fc438faae3713cc97d186d941919748',
+            'dev_requirement' => false,
+        ),
+        'symfony/serializer' => array(
+            'pretty_version' => 'v5.4.8',
+            'version' => '5.4.8.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/serializer',
+            'aliases' => array(),
+            'reference' => 'a806b1031c45bf2ee583beee6df734ecf34d5cfc',
             'dev_requirement' => false,
         ),
         'symfony/service-contracts' => array(
