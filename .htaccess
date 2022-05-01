@@ -87,7 +87,7 @@
 <VirtualHost *:80>
 	ServerName  simpfunny.epi
 	ServerAdmin webroot@localhost
-	DocumentRoot /var/www/app/dist/angular-ecommerce
+	DocumentRoot /var/www/app/dist
 
 	<Directory /var/www/app/dist>
 		Require all granted
