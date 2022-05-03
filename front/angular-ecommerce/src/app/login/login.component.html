@@ -5,17 +5,19 @@
             <span> Log in </span>
         </div>
         <div class="card-body centered">
-            <form>
                 <p>
-                    <label for="username"> Username</label>
-                    <input type="text" id="username">
+                    <label for="login"> Login</label>
+                    <input type="text" id="login" #login>
                 </p>
                 <p>
                     <label for="password">Password</label>
-                    <input type="text" id="password">
+                    <input type="password" id="password" #password>
                 </p>
-                <button class="btn-primary">Submit</button>
-            </form>
+                <p>
+                    <label for="email">Mail</label>
+                    <input type="text" id="email" #email>
+                </p>
+                <button class="btn-primary" (click)="onClick(login.value, password.value, email.value)" routerLink="/products">Submit</button>
         </div>
 
     </div>

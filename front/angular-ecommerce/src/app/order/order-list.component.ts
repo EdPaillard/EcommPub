@@ -1,53 +1,25 @@
-import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector:'orders',
     templateUrl:'./order-list.component.html',
 })
-export class OrderListComponent {
+export class OrderListComponent implements OnInit {
+
+    constructor(private http: HttpClient) {};
+
+    route: string = environment.API_URL+"/api/orders";
+
+    ngOnInit(): void {
+        this.http.get(this.route, {
+            headers: {"Authorization": `Bearer ${sessionStorage.getItem('token')}`}
+        }).subscribe(res => { 
+            this.order = res;
+        })
+    }
+
     title: string = "Order";
-    order: any[] = [
-        {
-            id: 1 ,
-            totalPrice : 42.01 ,
-            creationDate : "2021 -04 -01 08:32:00 Z"  ,
-            products : [
-                {
-                id : 1 ,
-                name :  "Item 3000" ,
-                description : " Best item in the shop !" ,
-                photo : "https://path/to/image.png " ,
-                price : 13.37
-                } ,
-                {
-                id : 2 ,
-                name : " Another item " ,
-                description : " Still good " ,
-                photo : "https://path/to/image2.png" ,
-                price : 28.64
-                }
-            ]
-        },
-        {
-            id: 2 ,
-            totalPrice : 42.01 ,
-            creationDate : "2021 -04 -01 08:32:00 Z"  ,
-            products : [
-                {
-                id : 1 ,
-                name :  "Item 3000" ,
-                description : " Best item in the shop !" ,
-                photo : "https://path/to/image.png " ,
-                price : 13.37
-                } ,
-                {
-                id : 2 ,
-                name : " Another item " ,
-                description : " Still good " ,
-                photo : "https://path/to/image2.png" ,
-                price : 28.64
-                }
-            ]
-        }
-    ]
+    order: any;
 }

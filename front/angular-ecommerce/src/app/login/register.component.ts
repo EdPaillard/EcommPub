@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'register',
@@ -6,4 +7,5 @@ import { Component } from '@angular/core';
 })
 export class RegisterComponent {
   title = 'REGISTER';
+  route = environment.API_URL+"/api/register"
 }

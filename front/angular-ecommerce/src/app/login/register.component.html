@@ -5,16 +5,28 @@
             <span> Register </span>
         </div>
         <div class="card-body centered">
-            <form>
+            <form action={{route}} method="POST" id="register">
                 <p>
-                    <label for="username"> Username</label>
-                    <input type="text" id="username">
+                    <label for="login"> Login </label>
+                    <input type="text" id="login" name="login">
                 </p>
                 <p>
                     <label for="password">Password</label>
-                    <input type="text" id="password">
+                    <input type="password" id="password" name="password">
                 </p>
-                <button class="btn-primary">Submit</button>
+                <p>
+                    <label for="email"> mail </label>
+                    <input type="text" id="email" name="email">
+                </p>
+                <p>
+                    <label for="firstname"> firstname</label>
+                    <input type="text" id="firstname" name="firstname">
+                </p>
+                <p>
+                    <label for="lastname"> lastname</label>
+                    <input type="text" id="lastname" name="lastname">
+                </p>
+                <button class="btn-primary" type="Submit" form="register" value="Submit">Submit</button>
             </form>
         </div>
 
